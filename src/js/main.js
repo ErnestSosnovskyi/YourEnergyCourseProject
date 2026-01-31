@@ -1,1 +1,1 @@
-import './js/quote.js';
+import './quote';
