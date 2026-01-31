@@ -1,19 +1,55 @@
 <header class="header">
-  <div class="container">
-    <nav class="nav">
-      <a class="nav-logo" href="./index.html" aria-label="Site logo">
-        <svg class="nav-logo-icon" width="100" height="30">
-          <use href="{=$icon-path}"></use>
-        </svg>
-      </a>
+  <div class="container header-container">
+    <a href="./index.html" class="logo" aria-label="Go to home page">
+      YOUR ENERGY
+    </a>
+
+    <nav class="header-nav">
       <ul class="nav-list">
-        <li class="nav-item">
-          <a class="nav-link {=$highlight-act}" href="./page-2.html">Сторінка 2</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link {=$highlight-curr}" href="./page-3.html">Сторінка 3</a>
-        </li>
+        <li><a href="./index.html" class="nav-link active">Home</a></li>
+        <li><a href="./favorites.html" class="nav-link">Favorites</a></li>
       </ul>
     </nav>
+
+    <div class="socials">
+      <a href="https://www.facebook.com/goITclub/" class="social-link" target="_blank" aria-label="Facebook">
+        <img src="./../img/links/facebook.svg" alt="Facebook">
+      </a>
+      <a href="https://www.instagram.com/goitclub/" class="social-link" target="_blank" aria-label="Instagram">
+        <img src="./../img/links/instagram.svg" alt="Instagram">
+      </a>
+      <a href="https://www.youtube.com/@GoIT/featured" target="_blank" class="social-link" aria-label="YouTube">
+        <img src="./../img/links/youtube.svg" alt="Youtube">
+      </a>
+    </div>
+
+    <button type="button" class="burger-btn js-open-menu" aria-label="Open menu">
+      <span class="burger-icon">☰</span> </button>
+  </div>
+
+  <div class="mobile-menu js-menu-container">
+    <div class="mobile-menu-content">
+      <button type="button" class="close-btn js-close-menu" aria-label="Close menu">
+        ✕ </button>
+      
+      <nav class="mobile-nav">
+        <ul class="mobile-nav-list">
+          <li><a href="./index.html">Home</a></li>
+          <li><a href="./favorites.html">Favorites</a></li>
+        </ul>
+      </nav>
+
+      <div class="mobile-socials">
+        <a href="https://www.facebook.com/goITclub/" class="social-link" target="_blank">
+          <img src="./../img/links/facebook_mobile.svg" alt="Facebook">
+        </a>
+        <a href="https://www.instagram.com/goitclub/" class="social-link" target="_blank">
+          <img src="./../img/links/instagram_mobile.svg" alt="Instagram">
+        </a>
+        <a href="https://www.youtube.com/@GoIT/featured" class="social-link" target="_blank">
+          <img src="./../img/links/youtube_mobile.svg" alt="Youtube">
+        </a>
+      </div>
+    </div>
   </div>
 </header>
