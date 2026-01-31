@@ -8,7 +8,7 @@
 .header-container {
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-between;
   width: 100%;
 }
 
@@ -20,7 +20,7 @@
   text-decoration: none;
   z-index: 1001;
   position: relative;
-  gap: 170px;
+  white-space: nowrap;
 }
 
 .header-nav,
@@ -130,8 +130,7 @@
 .mobile-socials .social-link {
   width: 36px;
   height: 36px;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;  
   color: #fff;
   display: flex;
   align-items: center;
