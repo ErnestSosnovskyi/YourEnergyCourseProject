@@ -5,7 +5,7 @@
   background-color: var(--color-dark);
   color: var(--color-light);
   padding: var(--spacing-3xl) var(--spacing-xl) var(--spacing-lg) var(--spacing-xl);
-  font-family: var(--font-family);
+  font-family: var(--font-family);  
 
   &__brand {
     display: flex;
@@ -21,6 +21,7 @@
 
   &__socials {
     display: flex;
+    list-style: none;
     gap: var(--spacing-sm);
   }
 
@@ -28,6 +29,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    list-style: none;
     width: 40px;
     height: 40px;
     background-color: rgba(36, 36, 36, 0.5);

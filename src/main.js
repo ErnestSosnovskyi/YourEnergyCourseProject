@@ -18,10 +18,9 @@ import {
 import { initHeader } from './js/header.js';
 import { displayQuote } from './js/quote.js';
 
-// Load and display quote of the day
+
 displayQuote();
 
-// Функція для відправки запиту на оформлення підписки
 async function subscribeToNewsletter(email) {
   try {
     const response = await fetch(
@@ -48,28 +47,20 @@ async function subscribeToNewsletter(email) {
   }
 }
 
-// Початкове завантаження та ініціалізація
 document.addEventListener('DOMContentLoaded', () => {
-  // Ініціалізація модалок
   initExerciseModal();
   initRatingModal();
 
-  // Ініціалізація глобальних повідомлень
   initGlobalNotification();
 
-  // Ініціалізація хедера
   initHeader();
 
-  // Ініціалізація пошуку
   initSearch();
 
-  // Ініціалізація слухача подій на контейнері карток (event delegation)
   initCardsEventListener();
 
-  // Початкове завантаження карток
   loadExerciseCards('Muscles', 1);
 
-  // Закриття по Escape
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
       closeExerciseModal();
@@ -77,36 +68,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Обробка кліків на фільтри
   const filterButtons = document.querySelectorAll(
     '.exercises__content__header-filters-item'
   );
 
   filterButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      // Видаляємо активний клас з усіх кнопок
+    button.addEventListener('click', () => {      
       filterButtons.forEach(btn =>
         btn.classList.remove('exercises__content__header-filters-item--active')
       );
 
-      // Додаємо активний клас до натиснутої кнопки
       button.classList.add('exercises__content__header-filters-item--active');
 
-      // Отримуємо значення фільтра
       const filter = button.getAttribute('data-filter');
       updateBreadcrumbs(null); // Оновлюємо breadcrumbs
 
-      // Завантажуємо нові картки
       loadExerciseCards(filter, 1);
     });
   });
 
-  // Обробка форми підписки
   const subscribeForm = document.getElementById('subscribeForm');
   const subscribeEmailInput = document.getElementById('subscribeEmail');
   const subscribeEmailError = document.getElementById('subscribeEmailError');
 
-  // Clear error on input
   if (subscribeEmailInput && subscribeEmailError) {
     subscribeEmailInput.addEventListener('input', () => {
       hideFieldError(subscribeEmailInput, subscribeEmailError);
@@ -120,7 +104,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const email = subscribeEmailInput?.value.trim() || '';
       let hasErrors = false;
 
-      // Validate email
       if (!email) {
         showFieldError(
           subscribeEmailInput,
@@ -139,7 +122,6 @@ document.addEventListener('DOMContentLoaded', () => {
         hideFieldError(subscribeEmailInput, subscribeEmailError);
       }
 
-      // Stop if there are errors
       if (hasErrors) {
         return;
       }
