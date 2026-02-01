@@ -1,43 +1,120 @@
-const menuOpenBtn = document.querySelector('.js-open-menu');
-const menuCloseBtn = document.querySelector('.js-close-menu');
-const mobileMenu = document.querySelector('.js-menu-container');
-const menuLinks = document.querySelectorAll('.mobile-link');
+import { switchToHome, switchToFavorites } from './exercises.js';
 
-const openMenu = () => {
-  mobileMenu.classList.add('is-open');
-  document.body.style.overflow = 'hidden';
-};
+// Current active page
+let currentPage = 'home';
 
-const closeMenu = () => {
-  mobileMenu.classList.remove('is-open');
-  document.body.style.overflow = '';
-};
+// Mobile menu elements
+let mobileMenu = null;
+let burgerButton = null;
+let closeButton = null;
 
-if (menuOpenBtn) {
-  menuOpenBtn.addEventListener('click', openMenu);
-}
+// Switch page and update UI
+export function switchPage(page) {
+  if (currentPage === page) return;
 
-if (menuCloseBtn) {
-  menuCloseBtn.addEventListener('click', closeMenu);
-}
+  currentPage = page;
 
-if (mobileMenu) {
-  mobileMenu.addEventListener('click', (e) => {
-    if (e.target === mobileMenu) {
-      closeMenu();
+  // Update nav links active state in desktop nav
+  const navLinks = document.querySelectorAll('.header__nav-link');
+  navLinks.forEach(link => {
+    const linkPage = link.getAttribute('data-page');
+    if (linkPage === page) {
+      link.classList.add('header__nav-link--active');
+    } else {
+      link.classList.remove('header__nav-link--active');
     }
   });
+
+  // Update nav links active state in mobile menu
+  const mobileNavLinks = document.querySelectorAll('.mobile-menu__nav-link');
+  mobileNavLinks.forEach(link => {
+    const linkPage = link.getAttribute('data-page');
+    if (linkPage === page) {
+      link.classList.add('mobile-menu__nav-link--active');
+    } else {
+      link.classList.remove('mobile-menu__nav-link--active');
+    }
+  });
+
+  // Call corresponding function to render content
+  if (page === 'home') {
+    switchToHome();
+  } else if (page === 'favorites') {
+    switchToFavorites();
+  }
 }
 
-const currentPath = window.location.pathname;
-const navLinks = document.querySelectorAll('.nav-link, .mobile-link');
-
-navLinks.forEach(link => {
-  if (link.getAttribute('href') === './favorites.html' && currentPath.includes('favorites')) {
-    link.classList.add('active');
-  } else if (link.getAttribute('href') === './index.html' && !currentPath.includes('favorites')) {
-     link.classList.add('active');
-  } else {
-    link.classList.remove('active');
+// Open mobile menu
+function openMobileMenu() {
+  if (mobileMenu) {
+    mobileMenu.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
   }
-});
+}
+
+// Close mobile menu
+function closeMobileMenu() {
+  if (mobileMenu) {
+    mobileMenu.classList.remove('is-open');
+    document.body.style.overflow = '';
+  }
+}
+
+// Initialize header event listeners
+export function initHeader() {
+  // Desktop nav links
+  const navLinks = document.querySelectorAll('.header__nav-link');
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const page = link.getAttribute('data-page');
+      if (page) {
+        switchPage(page);
+      }
+    });
+  });
+
+  // Mobile menu elements
+  mobileMenu = document.querySelector('.mobile-menu');
+  burgerButton = document.querySelector('.header__burger');
+  closeButton = document.querySelector('.mobile-menu__close');
+
+  // Burger button
+  if (burgerButton) {
+    burgerButton.addEventListener('click', openMobileMenu);
+  }
+
+  // Close button
+  if (closeButton) {
+    closeButton.addEventListener('click', closeMobileMenu);
+  }
+
+  // Mobile nav links
+  const mobileNavLinks = document.querySelectorAll('.mobile-menu__nav-link');
+  mobileNavLinks.forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const page = link.getAttribute('data-page');
+      if (page) {
+        switchPage(page);
+        closeMobileMenu();
+      }
+    });
+  });
+
+  // Close menu on backdrop click
+  if (mobileMenu) {
+    mobileMenu.addEventListener('click', e => {
+      if (e.target === mobileMenu) {
+        closeMobileMenu();
+      }
+    });
+  }
+}
+
+// Get current page
+export function getCurrentPage() {
+  return currentPage;
+}
+
