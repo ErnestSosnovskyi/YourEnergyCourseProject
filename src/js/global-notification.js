@@ -12,23 +12,19 @@ export function showGlobalNotification(message, type = 'success') {
 
   if (!notification || !textElement) return;
 
-  // Clear any existing timeout
   if (notificationTimeout) {
     clearTimeout(notificationTimeout);
     notificationTimeout = null;
   }
 
-  // Set the message and type
   textElement.textContent = message;
   notification.classList.remove('global-notification--error');
   if (type === 'error') {
     notification.classList.add('global-notification--error');
   }
 
-  // Show the notification
   notification.classList.add('global-notification--visible');
 
-  // Auto-hide after 3 seconds
   notificationTimeout = setTimeout(() => {
     hideGlobalNotification();
   }, 3000);
@@ -43,16 +39,13 @@ export function hideGlobalNotification() {
 
   if (!notification) return;
 
-  // Clear timeout if exists
   if (notificationTimeout) {
     clearTimeout(notificationTimeout);
     notificationTimeout = null;
   }
 
-  // Hide the notification
   notification.classList.remove('global-notification--visible');
 
-  // Clear content after animation
   setTimeout(() => {
     if (textElement) {
       textElement.textContent = '';

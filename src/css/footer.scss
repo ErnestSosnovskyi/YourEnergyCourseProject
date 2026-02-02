@@ -1,12 +1,13 @@
 .footer {
-  width: 100%;
+  width: 100%;  
   background-color: var(--color-dark);
   color: var(--color-light);
-  padding: var(--spacing-3xl) 0 var(--spacing-lg);
+  padding: var(--spacing-2xl) 0 var(--spacing-lg);
   font-family: var(--font-family);
+  overflow: hidden;
 
   &__container {
-    max-width: 1440px;
+    width: 100%;
     margin: 0 auto;
     padding: 0 var(--spacing-xl);
     display: grid;
@@ -14,11 +15,13 @@
     gap: var(--spacing-2xl);
 
     @media (max-width: 767px) {
+      width: 100%;
       grid-template-columns: 1fr 1fr;
       gap: var(--spacing-xl);
     }
     
     @media (max-width: 375px) {
+      width: 100%;
       grid-template-columns: 1fr;
       text-align: center;
     }
@@ -35,37 +38,66 @@
   }
 
   &__brand-logo {
-    img {
-      display: block;
+    font-weight: 500;    
+    font-size: var(--spacing-lg);
+    transition: all 0.3s ease;
+    
+    a {
+      text-decoration: none;
+      color: var(--color-light);
     }
+  }
+
+  &__brand-logo:hover {
+    text-shadow: 2px 2px 6px var(--color-light);
   }
 
   &__socials {
     display: flex;
+    padding: 0;
     gap: var(--spacing-sm);
-  }
+    text-decoration: none;
+    list-style: none;
+  }  
 
   &__socials-link {
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
     width: 40px;
     height: 40px;
     background-color: rgba(36, 36, 36, 0.5);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 4px;
-    transition: background-color 0.2s ease;
+    transition: all 0.2s ease;
 
-    &:hover {
-      background-color: rgba(36, 36, 36, 0.8);
-    }
+    &-hover {
+      display: none;
+    }    
 
     img {
-      display: block;
+      display: flex;
       width: 20px;
       height: 20px;
     }
-  }  
+  }
+
+  &__socials-link .footer__socials-link-hover {      
+      display: none;      
+  }
+
+  &__socials-link:hover {
+      background-color: var(--color-light);
+  }
+
+  &__socials-link:hover .footer__socials-link-hover {      
+      display: flex;      
+  }
+
+  &__socials-link:hover .footer__socials-link-main {
+      display: none;
+  }
 
   &__copyright {
     font-size: 14px;

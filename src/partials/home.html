@@ -24,7 +24,17 @@
       </div>
     </div>
   </div>
-  <div class="home__hero">
-    <img src="./img/71236a8cc6b04d6a87e15feef63b9cb64728b379.webp" alt="Abductors exercise">
-  </div>
+  <picture class="home__hero">
+    <source type="image/webp"
+    srcset="./img/home-main-mobile.webp 768w,
+            ./img/home-main-1800.webp 1800w,
+            ./img/home-main-3600.webp 3600w" 
+    sizes="(max-width: 768px) 100vw, 95vw">
+    <img src="./img/home-main-1800.webp" 
+    srcset="./img/home-main-mobile.webp 768w,
+            ./img/home-main-1800.webp 1800w,
+            ./img/home-main-3600.webp 3600w" 
+    sizes="(max-width: 768px) 100vw, 95vw"
+    width="1800" height="400" alt="Abductors exercise" fetchpriority="high">
+  </picture>
 </section>
