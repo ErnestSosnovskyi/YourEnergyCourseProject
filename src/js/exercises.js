@@ -1,5 +1,6 @@
 import { openExerciseModal } from './exercise-modal.js';
 import { getFavorites } from './favorites.js';
+import { showGlobalNotification } from './global-notification.js';
 
 // Глобальні змінні для фільтра та сторінки
 let currentFilter = 'Muscles';
@@ -60,6 +61,39 @@ export function initCardsEventListener() {
     if (exerciseId) {
       openExerciseModal(exerciseId);
       return;
+    }
+  });
+}
+
+export function initHashtags() {
+  const hashtagsContainer = document.querySelector('.home__hashtags');
+  if (!hashtagsContainer) return;
+
+  hashtagsContainer.addEventListener('click', event => {
+    // НОВЕ: Делегування подій (клік саме по кнопці або її дітях)
+    const targetBtn = event.target.closest('button');
+    if (!targetBtn) return;
+
+    const keyword = targetBtn.getAttribute('data-keyword') || targetBtn.textContent.replace('#', '').trim();
+    
+    const searchInput = document.getElementById('js-exercises-search-input');
+
+    if (searchInput) {
+      searchInput.value = keyword;
+    }
+
+    // НОВЕ: Плавний скрол до секції вправ
+    const exercisesContent = document.querySelector('.exercises__content');
+    if (exercisesContent) {
+        exercisesContent.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    if (currentCategory) {
+      // Виконуємо пошук
+      loadExercisesByCategory(currentCategory, 1, keyword);
+    } else {
+      // НОВЕ: Виводимо гарне повідомлення замість console.warn
+      showGlobalNotification('Please select a category (e.g., Muscles) to start searching.', 'error');
     }
   });
 }
@@ -292,7 +326,7 @@ function renderPagination(totalPages, page = 1) {
   const goToPage = pageNumber => {
     currentPage = pageNumber;
     if (currentCategory) {
-      loadExercisesByCategory(currentCategory, pageNumber);
+      loadExercisesByCategory(currentCategory, pageNumber, currentSearchKeyword);
     } else {
       loadExerciseCards(currentFilter, pageNumber);
     }
@@ -438,7 +472,11 @@ export function loadExercisesByCategory(
   }
 
   fetch(url)
-    .then(response => response.json())
+    .then(response => {
+      if (response.status === 409) return { results: [], totalPages: 0 };
+      if (!response.ok) throw new Error('Search failed');
+      return response.json();
+    })
     .then(data => {
       // Отримуємо масив вправ
       const exercises = data.results || [];
@@ -467,7 +505,38 @@ export function loadExercisesByCategory(
 
 // Функція для ініціалізації обробників пошуку
 export function initSearch() {
+  const searchContainer = document.getElementById('js-exercises-search');
   const searchInput = document.getElementById('js-exercises-search-input');
+
+  if (!searchContainer || !searchInput) return;
+
+  // Функція обробки сабміту пошуку
+  const handleSearchSubmit = () => {
+    const keyword = searchInput.value.trim().toLowerCase();
+
+    if (currentCategory) {
+      // Якщо категорія вибрана, робимо пошук, починаючи з 1 сторінки
+      loadExercisesByCategory(currentCategory, 1, keyword);
+    } else {
+        // Якщо намагаються шукати без категорії
+        showGlobalNotification('Please select a category first', 'error');
+    }
+  };
+
+  // Слухач на натискання Enter у полі введення
+  searchInput.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+        event.preventDefault(); // Запобігаємо перезавантаженню, якщо це форма
+        handleSearchSubmit();
+    }
+  });
+
+  // Слухач на клік по іконці пошуку (лупа)
+  const searchIcon = searchContainer.querySelector('.exercises__content__header-search-icon');
+  if (searchIcon) {
+    searchIcon.addEventListener('click', handleSearchSubmit);
+  }
+  /*const searchInput = document.getElementById('js-exercises-search-input');
 
   if (!searchInput) {
     return;
@@ -489,7 +558,7 @@ export function initSearch() {
         loadExercisesByCategory(currentCategory, 1, keyword);
       }
     }, 1000);
-  });
+  });*/
 }
 
 // Функція для відображення empty state для favorites

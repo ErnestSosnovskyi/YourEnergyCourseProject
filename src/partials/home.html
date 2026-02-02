@@ -13,15 +13,23 @@
       </p>
     </div>
     <div class="home__sidebar">
-      <div class="home__image-small">
-        <img src="./img/f160f7810cea23bed860734e12e1a81def3d668a.webp" alt="Women exercising outdoors">
-      </div>
-      <div class="home__hashtags">
-        <div class="home__hashtags-item">#Sport</div>
-        <div class="home__hashtags-item">#Healthy</div>
-        <div class="home__hashtags-item">#Workout</div>
-        <div class="home__hashtags-item">#Diet</div>
-      </div>
+      <picture class="home__image-small">
+        <source
+          type="image/webp"
+          srcset="
+            ./img/thumb-168.webp 1x,
+            ./img/thumb-336.webp 2x">
+        <img src="./img/thumb-168.webp" 
+        srcset="
+            ./img/thumb-168.jpg 1x,
+            ./img/thumb-336.jpg 2x" width="168" height="100" alt="Women exercising outdoors">        
+      </picture>
+      <ul class="home__hashtags" id="js-home-hashtags">
+        <li class="home__hashtags-item"><button data-keyword="Sport">#Sport</button></li>
+        <li class="home__hashtags-item"><button data-keyword="Healthy">#Healthy</button></li>
+        <li class="home__hashtags-item"><button data-keyword="Workout">#Workout</button></li>
+        <li class="home__hashtags-item"><button data-keyword="Diet">#Diet</button></li>
+      </ul>
     </div>
   </div>
   <picture class="home__hero">

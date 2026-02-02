@@ -3,6 +3,7 @@
   justify-content: space-between;
   align-items: center;
   padding: var(--spacing-md) var(--spacing-xl);
+  margin-bottom: 0;
 
   &__logo {
     font-weight: 500;    
@@ -117,6 +118,9 @@
       border-radius: 2px;
       transition: all 0.3s ease;
     }
+    &.is-hidden {
+      display: none;
+    }
   }
 
   // Mobile styles
@@ -137,7 +141,24 @@
   }
 }
 
-// Mobile Menu
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s;
+  z-index: 10;
+}
+
+#overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
 .mobile-menu {
   position: fixed;
   top: 0;

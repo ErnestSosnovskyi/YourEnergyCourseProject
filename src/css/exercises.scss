@@ -1,7 +1,7 @@
 .exercises__content {
   width: 100%;
-  //margin-bottom: var(--spacing-3xl);
   margin: 20px auto;
+  margin-top: 0px;
   padding: var(--spacing-md) var(--spacing-xl);
 
   &--favorites {
@@ -100,9 +100,20 @@
         right: 16px;
         color: var(--color-dark);
         opacity: 0.6;
-        pointer-events: none;
+        cursor: pointer;
+
+        // 3. ДОДАЄМО z-index, щоб іконка точно була поверх інпуту
+        z-index: 2;
+
+        // 4. ДОДАЄМО плавну зміну прозорості (опціонально)
+        transition: opacity 0.2s ease;
+
+        // 5. Ефект при наведенні (опціонально)
+        &:hover {
+          opacity: 1;
+        }
       }
-    }
+    }    
 
     &-filters {
       display: flex;

@@ -3,6 +3,7 @@ import {
   updateBreadcrumbs,
   initSearch,
   initCardsEventListener,
+  initHashtags,
 } from './js/exercises.js';
 import { initExerciseModal, closeExerciseModal } from './js/exercise-modal.js';
 import { initRatingModal, closeRatingModal } from './js/rating-modal.js';
@@ -58,6 +59,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initSearch();
 
   initCardsEventListener();
+
+  initHashtags();
 
   loadExerciseCards('Muscles', 1);
 
