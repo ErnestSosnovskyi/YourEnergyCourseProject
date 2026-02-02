@@ -7,6 +7,7 @@ let currentPage = 1;
 let currentCategory = null;
 let currentSearchKeyword = '';
 let currentMode = 'home'; // 'home' або 'favorites'
+const ITEMS_PER_PAGE = 10;
 
 function showSearchField() {
   const searchField = document.getElementById('js-exercises-search');
@@ -321,90 +322,101 @@ function renderPagination(totalPages, page = 1) {
   paginationContainer.innerHTML = '';
 
   // Якщо лише одна сторінка - не відображаємо пагінацію
-  if (totalPages === 1) {
+  if (totalPages <= 1) {
     return;
   }
 
   // Функція для переходу на сторінку
   const goToPage = pageNumber => {
     currentPage = pageNumber;
-    if (currentCategory) {
+    if (currentMode === 'favorites') {
+      loadFavoritesExercises(pageNumber);
+    } else if (currentCategory) {
       loadExercisesByCategory(currentCategory, pageNumber, currentSearchKeyword);
     } else {
       loadExerciseCards(currentFilter, pageNumber);
     }
   };
 
-  // Кнопка "На першу сторінку"
-  const firstButton = document.createElement('button');
-  firstButton.className = 'exercises__content__pagination-arrow';
-  firstButton.innerHTML = '&laquo;';
-  firstButton.disabled = page === 1;
-  firstButton.addEventListener('click', () => goToPage(1));
-  paginationContainer.appendChild(firstButton);
-
-  // Кнопка "Попередня сторінка"
-  const prevButton = document.createElement('button');
-  prevButton.className = 'exercises__content__pagination-arrow';
-  prevButton.innerHTML = '&lsaquo;';
-  prevButton.disabled = page === 1;
-  prevButton.addEventListener('click', () => goToPage(page - 1));
-  paginationContainer.appendChild(prevButton);
-
-  // Функція для створення кнопки сторінки
-  const createPageButton = pageNumber => {
-    const pageButton = document.createElement('button');
-    pageButton.className = 'exercises__content__pagination-page';
-    pageButton.textContent = pageNumber;
-
-    if (pageNumber === page) {
-      pageButton.classList.add('exercises__content__pagination-page--active');
-    }
-
-    pageButton.addEventListener('click', () => goToPage(pageNumber));
-    return pageButton;
+  const createArrow = (html, isDisabled, onClick) => {
+    const btn = document.createElement('button');
+    btn.className = 'exercises__content__pagination-arrow';
+    btn.innerHTML = html;
+    btn.disabled = isDisabled;
+    btn.addEventListener('click', onClick);
+    return btn;
   };
 
-  // Логіка відображення номерів сторінок
-  if (totalPages <= 5) {
-    // Відображаємо всі сторінки
-    for (let i = 1; i <= totalPages; i++) {
-      paginationContainer.appendChild(createPageButton(i));
-    }
-  } else {
-    // Відображаємо 1, 2, 3, ..., передостання, остання
-    paginationContainer.appendChild(createPageButton(1));
-    paginationContainer.appendChild(createPageButton(2));
-    paginationContainer.appendChild(createPageButton(3));
+  const createPageBtn = num => {
+    const btn = document.createElement('button');
+    btn.className = 'exercises__content__pagination-page';
+    btn.textContent = num;
+    if (num === page) btn.classList.add('exercises__content__pagination-page--active');
+    btn.addEventListener('click', () => goToPage(num));
+    return btn;
+  };
 
-    // Додаємо ellipsis
-    const ellipsis = document.createElement('span');
-    ellipsis.className = 'exercises__content__pagination-ellipsis';
-    ellipsis.textContent = '...';
-    paginationContainer.appendChild(ellipsis);
-
-    // Передостання сторінка
-    paginationContainer.appendChild(createPageButton(totalPages - 1));
-
-    // Остання сторінка
-    paginationContainer.appendChild(createPageButton(totalPages));
+  const createEllipsis = () => {
+    const span = document.createElement('span');
+    span.className = 'exercises__content__pagination-ellipsis';
+    span.textContent = '...';
+    return span;
   }
 
-  // Кнопка "Наступна сторінка"
-  const nextButton = document.createElement('button');
-  nextButton.className = 'exercises__content__pagination-arrow';
-  nextButton.innerHTML = '&rsaquo;';
-  nextButton.disabled = page === totalPages;
-  nextButton.addEventListener('click', () => goToPage(page + 1));
-  paginationContainer.appendChild(nextButton);
+  paginationContainer.appendChild(createArrow('&laquo;', page === 1, () => goToPage(1)));
+  paginationContainer.appendChild(createArrow('&lsaquo;', page === 1, () => goToPage(page - 1)));
 
-  // Кнопка "На останню сторінку"
-  const lastButton = document.createElement('button');
-  lastButton.className = 'exercises__content__pagination-arrow';
-  lastButton.innerHTML = '&raquo;';
-  lastButton.disabled = page === totalPages;
-  lastButton.addEventListener('click', () => goToPage(totalPages));
-  paginationContainer.appendChild(lastButton);
+  const pages = [];
+  pages.push(1);
+
+  if (totalPages <= 7) {
+    for (let i = 2; i <= totalPages; i++) {
+        pages.push(i);
+    }
+  } else {
+    // Якщо сторінок багато
+    let leftBound = page - 1;
+    let rightBound = page + 1;
+
+    if (page < 5) {
+        leftBound = 2;
+        rightBound = 5;
+    }
+
+    if (page > totalPages - 4) {
+        leftBound = totalPages - 4;
+        rightBound = totalPages - 1;
+    }
+
+    if (leftBound > 2) {
+        pages.push('...');
+    }
+
+    for (let i = leftBound; i <= rightBound; i++) {
+        if (i > 1 && i < totalPages) { // Уникаємо дублювання 1 і last
+            pages.push(i);
+        }
+    }
+
+    if (rightBound < totalPages - 1) {
+        pages.push('...');
+    }
+    
+    if (totalPages > 1) {
+        pages.push(totalPages);
+    }
+  }
+
+  pages.forEach(item => {
+    if (item === '...') {
+        paginationContainer.appendChild(createEllipsis());
+    } else {
+        paginationContainer.appendChild(createPageBtn(item));
+    }
+  });
+
+  paginationContainer.appendChild(createArrow('&rsaquo;', page === totalPages, () => goToPage(page + 1)));
+  paginationContainer.appendChild(createArrow('&raquo;', page === totalPages, () => goToPage(totalPages)));
 }
 
 // Функція для завантаження карток категорій
@@ -526,6 +538,14 @@ export function initSearch() {
     }
   };
 
+  searchInput.addEventListener('input', (event) => {
+    const text = event.target.value.trim();
+        
+    if (text === '' && currentCategory) {
+      loadExercisesByCategory(currentCategory, 1, '');
+    }
+  });
+
   // Слухач на натискання Enter у полі введення
   searchInput.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
@@ -595,28 +615,33 @@ function renderFavoritesEmptyState() {
 }
 
 // Функція для завантаження вправ з обраного
-export function loadFavoritesExercises() {
+export function loadFavoritesExercises(page = 1) {
+  currentPage = page;
   const favoriteIds = getFavorites();
 
   // Оновлюємо breadcrumbs
-  updateBreadcrumbs(null);
-
-  // Приховуємо пагінацію
-  const paginationContainer = document.querySelector(
-    '.exercises__content__pagination'
-  );
-  if (paginationContainer) {
-    paginationContainer.innerHTML = '';
-  }
+  updateBreadcrumbs(null);  
 
   // Якщо немає обраних вправ
   if (favoriteIds.length === 0) {
     renderFavoritesEmptyState();
+    const paginationContainer = document.querySelector('.exercises__content__pagination');
+    if (paginationContainer) paginationContainer.innerHTML = '';
     return;
   }
 
+  const totalPages = Math.ceil(favoriteIds.length / ITEMS_PER_PAGE);
+  
+  if (page > totalPages) {
+    page = totalPages;
+    currentPage = page;
+  }
+
+  const startIndex = (page - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const idsToLoad = favoriteIds.slice(startIndex, endIndex);
   // Завантажуємо деталі кожної вправи
-  const promises = favoriteIds.map(id =>
+  const promises = idsToLoad.map(id =>
     fetch(`https://your-energy.b.goit.study/api/exercises/${id}`)
       .then(response => {
         if (!response.ok) {
@@ -635,6 +660,7 @@ export function loadFavoritesExercises() {
 
     if (validExercises.length > 0) {
       renderExerciseItemCards(validExercises);
+      renderPagination(totalPages, page);
     } else {
       renderFavoritesEmptyState();
     }

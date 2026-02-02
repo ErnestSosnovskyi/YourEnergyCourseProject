@@ -40,9 +40,18 @@
           <div class="exercises__content__main__aside__quote-author" id="js-exercises-quote-author"></div>
         </div>
       </div>
-
-      <img src="img/587b8632b7ccf35f98d92322207f124659b97cc6.jpg" alt="Exercise image"
-        class="exercises__content__main__aside__image">
+      <picture>
+        <source
+          type="image/webp"
+          srcset="
+            ./img/aside-444.webp 1x,
+            ./img/aside-888.webp 2x">
+          <img src="./img/aside-444.webp"
+              srcset="
+                ./img/aside-444.webp 1x,
+                ./img/aside-888.webp 2x" width="444" height="242" alt="Exercise image" class="exercises__content__main__aside__image" loading="lazy">  
+      </picture>
+      
 
       <div class="exercises__content__main__aside__norm">
         <img src="/img/svg/norm-icon.svg" alt="Norm icon">
