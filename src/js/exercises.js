@@ -2,14 +2,12 @@ import { openExerciseModal } from './exercise-modal.js';
 import { getFavorites } from './favorites.js';
 import { showGlobalNotification } from './global-notification.js';
 
-// Глобальні змінні для фільтра та сторінки
 let currentFilter = 'Muscles';
 let currentPage = 1;
 let currentCategory = null;
 let currentSearchKeyword = '';
 let currentMode = 'home'; // 'home' або 'favorites'
 
-// Функція для показу поля пошуку
 function showSearchField() {
   const searchField = document.getElementById('js-exercises-search');
   if (searchField) {
@@ -52,7 +50,7 @@ export function initCardsEventListener() {
     // Перевіряємо, чи це картка категорії
     const categoryName = card.getAttribute('data-category-name');
     if (categoryName) {
-      loadExercisesByCategory(categoryName);
+      loadExercisesByCategory(categoryName);      
       return;
     }
 
@@ -70,11 +68,19 @@ export function initHashtags() {
   if (!hashtagsContainer) return;
 
   hashtagsContainer.addEventListener('click', event => {
-    // НОВЕ: Делегування подій (клік саме по кнопці або її дітях)
     const targetBtn = event.target.closest('button');
     if (!targetBtn) return;
 
     const keyword = targetBtn.getAttribute('data-keyword') || targetBtn.textContent.replace('#', '').trim();
+
+    if (currentMode !== 'home') {
+        const homeLink = document.querySelector('.header__nav-link[data-page="home"]');
+        if (homeLink) {
+            homeLink.click();
+        } else {
+            switchToHome();
+        }
+    }
     
     const searchInput = document.getElementById('js-exercises-search-input');
 
@@ -82,18 +88,15 @@ export function initHashtags() {
       searchInput.value = keyword;
     }
 
-    // НОВЕ: Плавний скрол до секції вправ
     const exercisesContent = document.querySelector('.exercises__content');
     if (exercisesContent) {
         exercisesContent.scrollIntoView({ behavior: 'smooth' });
     }
 
     if (currentCategory) {
-      // Виконуємо пошук
       loadExercisesByCategory(currentCategory, 1, keyword);
-    } else {
-      // НОВЕ: Виводимо гарне повідомлення замість console.warn
-      showGlobalNotification('Please select a category (e.g., Muscles) to start searching.', 'error');
+    } else {      
+      showGlobalNotification('Please select a category (e.g., abs) to start searching.', 'error');
     }
   });
 }
@@ -456,7 +459,7 @@ export function loadExercisesByCategory(
   if (currentFilter === 'Muscles') {
     paramName = 'muscles';
   } else if (currentFilter === 'Body parts') {
-    paramName = 'bodyPart';
+    paramName = 'bodypart';
   } else if (currentFilter === 'Equipment') {
     paramName = 'equipment';
   }

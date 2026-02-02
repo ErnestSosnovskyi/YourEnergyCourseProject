@@ -68,6 +68,15 @@
     color: var(--color-dark);
     text-align: center;
     border: 1px solid var(--color-dark);
+
+    &-button {
+      background: none;
+      border: none;
+      color: inherit;
+      font: inherit;
+      cursor: pointer;
+      padding: 0;
+    }
   }
 
   @media (max-width: 1024px) {
