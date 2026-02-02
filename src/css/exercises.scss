@@ -19,6 +19,10 @@
     gap: var(--spacing-md);
     margin-bottom: var(--spacing-xl);
 
+    @media (max-width: 1024px) {
+      flex-direction: column;
+    }
+
     &-top {
       display: flex;
       align-items: center;
@@ -100,15 +104,9 @@
         right: 16px;
         color: var(--color-dark);
         opacity: 0.6;
-        cursor: pointer;
-
-        // 3. ДОДАЄМО z-index, щоб іконка точно була поверх інпуту
+        cursor: pointer;        
         z-index: 2;
-
-        // 4. ДОДАЄМО плавну зміну прозорості (опціонально)
         transition: opacity 0.2s ease;
-
-        // 5. Ефект при наведенні (опціонально)
         &:hover {
           opacity: 1;
         }
@@ -120,6 +118,16 @@
       align-items: center;
       gap: var(--spacing-lg);
 
+      @media (max-width: 481px) {
+        flex-direction: column;
+      }
+
+      &-list {
+        display: flex;
+        list-style: none;
+        padding: var(--spacing-md)
+      }
+
       &-item {
         font-family: var(--font-family);
         font-size: 16px;
@@ -128,7 +136,7 @@
         opacity: 0.6;
         background: none;
         border: none;
-        padding: 0;
+        padding: 0 var(--spacing-xs);
         padding-bottom: 4px;
         border-bottom: 2px solid transparent;
         cursor: pointer;
@@ -151,15 +159,23 @@
 
   &__main {
     display: flex;
-    gap: var(--spacing-xl);
+    gap: var(--spacing-xl);    
+
+    @media (max-width: 1024px) {
+      flex-direction: column;
+    }
 
     &__aside {
       display: flex;
       flex-direction: column;
       gap: var(--spacing-lg);
-      min-width: 444px;      
+      width: 30%;    
       flex: 1;
 
+      @media(max-width: 1024px) {
+          width: 100%;
+      }
+      
       &__quote {
         display: flex;
         gap: var(--spacing-lg);
@@ -224,7 +240,11 @@
 
     &__cards {
       &-container {
-        width: 100%;
+        width: 70%;
+
+        @media(max-width: 1024px) {
+          width: 100%;
+        }
       }
 
       width: 100%;
@@ -242,7 +262,12 @@
         border-radius: 20px;
         overflow: hidden;
         aspect-ratio: 1;
-        cursor: pointer;      
+        cursor: pointer;
+        transition: transform 0.3s ease-out;
+        
+        &:hover {
+          transform: scale(1.05);
+        }
       
         &-image {
           position: relative;
