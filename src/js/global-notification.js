@@ -21,6 +21,8 @@ export function showGlobalNotification(message, type = 'success') {
   notification.classList.remove('global-notification--error');
   if (type === 'error') {
     notification.classList.add('global-notification--error');
+  } else if (type === 'warning') {
+    notification.classList.add('global-notification--warning');
   }
 
   notification.classList.add('global-notification--visible');
@@ -30,9 +32,6 @@ export function showGlobalNotification(message, type = 'success') {
   }, 3000);
 }
 
-/**
- * Hides the global notification
- */
 export function hideGlobalNotification() {
   const notification = document.getElementById('js-global-notification');
   const textElement = document.getElementById('js-global-notification-text');
@@ -50,13 +49,10 @@ export function hideGlobalNotification() {
     if (textElement) {
       textElement.textContent = '';
     }
-    notification.classList.remove('global-notification--error');
+    notification.classList.remove('global-notification--error', 'global-notification--warning');
   }, 300);
 }
 
-/**
- * Initializes the global notification system
- */
 export function initGlobalNotification() {
   const closeBtn = document.getElementById('js-global-notification-close');
 

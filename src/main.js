@@ -16,13 +16,14 @@ import {
   hideFieldError,
   validateEmail,
 } from './js/form-validation.js';
+import { initFooterSubscription } from './js/email-validation.js';
 import { initHeader } from './js/header.js';
 import { displayQuote } from './js/quote.js';
 
 
 displayQuote();
 
-async function subscribeToNewsletter(email) {
+/*async function subscribeToNewsletter(email) {
   try {
     const response = await fetch(
       'https://your-energy.b.goit.study/api/subscription',
@@ -46,7 +47,7 @@ async function subscribeToNewsletter(email) {
   } catch (error) {
     return { success: false, error: error.message };
   }
-}
+}*/
 
 document.addEventListener('DOMContentLoaded', () => {
   initExerciseModal();
@@ -61,6 +62,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initCardsEventListener();
 
   initHashtags();
+
+  initFooterSubscription();
 
   loadExerciseCards('Muscles', 1);
 
@@ -90,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  const subscribeForm = document.getElementById('subscribeForm');
+  /*const subscribeForm = document.getElementById('subscribeForm');
   const subscribeEmailInput = document.getElementById('subscribeEmail');
   const subscribeEmailError = document.getElementById('subscribeEmailError');
 
@@ -139,5 +142,5 @@ document.addEventListener('DOMContentLoaded', () => {
         showGlobalNotification(result.error, 'error');
       }
     });
-  }
+  }*/
 });

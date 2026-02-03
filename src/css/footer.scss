@@ -202,7 +202,7 @@
         border-radius: 30px;
         color: var(--color-light);
         transition: border-color 0.2s ease;
-        outline: none;
+        outline: none;                  
 
         &::placeholder {
           color: rgba(255, 255, 255, 0.6);
@@ -218,6 +218,22 @@
           &:focus {
             border-color: #ff4d4f;
           }
+        }
+      }
+
+      &-error {
+        color: #E6533C;
+        font-size: 12px;
+        line-height: 1.2;
+        text-align: center;
+        width: 100%;
+        display: none; 
+        margin-top: 0;
+
+        &.form-error--visible {
+          display: block;
+          margin-top: 0px;
+          animation: fadeIn 0.3s ease-in-out;
         }
       }
   

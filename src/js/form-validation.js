@@ -11,7 +11,6 @@
  */
 export function showFieldError(inputElement, errorElement, message) {
   if (inputElement) {
-    // Determine the appropriate error class based on element type
     const errorClass = inputElement.classList.contains('rating-modal__textarea')
       ? 'rating-modal__textarea--error'
       : inputElement.classList.contains('rating-modal__input')
