@@ -7,7 +7,7 @@
   <title>Your Energy - Get Body in shape, Stay healthy</title>
   <link rel="icon" href="/YourEnergyCourseProject/assets/favicon-Cpwlvc8J.svg">
   <script type="module" crossorigin src="/YourEnergyCourseProject/index.js"></script>
-  <link rel="stylesheet" crossorigin href="/YourEnergyCourseProject/assets/index-RVx52gTy.css">
+  <link rel="stylesheet" crossorigin href="/YourEnergyCourseProject/assets/index-DcUsa3tx.css">
 </head>
 
 <body>
@@ -239,10 +239,11 @@
   </div>
   <div class="footer__subscribe">
     <div class="footer__subscribe-title">Subscribe and learn about new exercises!</div>
-    <form class="footer__subscribe-form" id="subscribeForm">
+    <form class="footer__subscribe-form" id="subscribeForm" novalidate>
       <div class="footer__subscribe-form-field">
         <input type="email" class="footer__subscribe-form-input" id="subscribeEmail" placeholder="Email"
-          aria-label="Email address">        
+          aria-label="Email address" required>
+        <div id="subscribeEmailError" class="footer__subscribe-form-error"></div>      
         <button type="submit" class="footer__subscribe-form-button">Send</button>
       </div>
     </form>
