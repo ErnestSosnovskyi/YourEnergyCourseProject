@@ -9,6 +9,34 @@ let currentSearchKeyword = '';
 let currentMode = 'home'; // 'home' або 'favorites'
 const ITEMS_PER_PAGE = 10;
 
+function createOptimizedImage(originalUrl, alt, className = '') {
+  if (!originalUrl) return '';
+  
+  // Базовий URL прокси
+  const proxyBase = 'https://wsrv.nl/?url=';
+
+  // 1. Mobile (~150px для контейнерів 100px+)
+  const sm = `${proxyBase}${originalUrl}&w=150&output=webp&q=75`;
+  
+  // 2. Tablet/Desktop (до 350px)
+  const md = `${proxyBase}${originalUrl}&w=350&output=webp&q=75`;
+  
+  // 3. Retina/Large (до 700px)
+  const lg = `${proxyBase}${originalUrl}&w=700&output=webp&q=80`;
+
+  return `
+    <img 
+      class="${className}" 
+      src="${md}" 
+      srcset="${sm} 150w, ${md} 350w, ${lg} 700w"
+      sizes="(max-width: 767px) 150px, (max-width: 1440px) 350px, 350px"
+      alt="${alt}" 
+      loading="lazy" 
+      decoding="async"
+    />
+  `;
+}
+
 function showSearchField() {
   const searchField = document.getElementById('js-exercises-search');
   if (searchField) {
@@ -107,7 +135,7 @@ function createExerciseCard(exercise) {
   return `
     <div class="exercises__content__main__cards-item" data-category-name="${exercise.name}">
       <div class="exercises__content__main__cards-item-image">
-        <img src="${exercise.imgURL}" alt="${exercise.name} exercise" />
+        ${createOptimizedImage(exercise.imgURL, `${exercise.name} exercise`)}
         <div class="exercises__content__main__cards-item-overlay">
           <div class="exercises__content__main__cards-item-overlay-name">${exercise.name}</div>
           <div class="exercises__content__main__cards-item-overlay-category">${exercise.filter}</div>
