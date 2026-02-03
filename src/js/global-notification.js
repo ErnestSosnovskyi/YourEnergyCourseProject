@@ -1,4 +1,3 @@
-// Global notification system
 let notificationTimeout = null;
 
 /**

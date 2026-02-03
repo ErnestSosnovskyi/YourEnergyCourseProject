@@ -10,7 +10,7 @@
  * @param {string} message - The error message to display
  */
 export function showFieldError(inputElement, errorElement, message) {
-  if (inputElement) {
+  if (inputElement) {    
     const errorClass = inputElement.classList.contains('rating-modal__textarea')
       ? 'rating-modal__textarea--error'
       : inputElement.classList.contains('rating-modal__input')

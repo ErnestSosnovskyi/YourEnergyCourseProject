@@ -16,24 +16,30 @@
   &__header {
     display: flex;
     justify-content: space-between;
-    gap: var(--spacing-md);
-    margin-bottom: var(--spacing-xl);
+    gap: var(--spacing-md);    
+    margin-bottom: var(--spacing-md);
 
     @media (max-width: 1024px) {
       flex-direction: column;
+      align-items: flex-start;
     }
 
     &-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      width: 100%; 
     }
 
     &-title {
       font-size: 44px;
       font-weight: 400;
       color: var(--color-dark);
-      margin-block: 0;
+      margin-block: 0;      
+      
+      @media (max-width: 767px) {
+        font-size: 32px;
+      }
     }
 
     &-breadcrumbs {
@@ -52,6 +58,7 @@
         padding: 0;
         cursor: pointer;
         transition: opacity 0.2s ease;
+        white-space: nowrap;
 
         &:hover {
           opacity: 1;
@@ -87,7 +94,12 @@
         padding: 10px 48px 10px 20px;
         min-width: 300px;
         outline: none;
-        transition: border-color 0.2s ease;
+        transition: border-color 0.2s ease;        
+        
+        @media (max-width: 480px) {
+          min-width: 100%;
+          width: 100%;
+        }
 
         &:focus {
           border-color: var(--color-dark);
@@ -117,15 +129,24 @@
       display: flex;
       align-items: center;
       gap: var(--spacing-lg);
+      
+      @media (max-width: 1024px) {
+        width: 100%;
+        justify-content: flex-start;
+      }
 
       @media (max-width: 481px) {
         flex-direction: column;
+        align-items: flex-start; 
+        gap: 10px;
       }
 
       &-list {
         display: flex;
         list-style: none;
-        padding: var(--spacing-md)
+        padding: var(--spacing-md);
+        padding-left: 0; 
+        margin: 0; 
       }
 
       &-item {
@@ -139,6 +160,7 @@
         padding: 0 var(--spacing-xs);
         padding-bottom: 4px;
         border-bottom: 2px solid transparent;
+        white-space: nowrap;
         cursor: pointer;
         transition: color 0.2s ease, border-color 0.2s ease;
     
@@ -160,11 +182,11 @@
   &__main {
     display: flex;
     gap: var(--spacing-xl);    
-
+    
     @media (max-width: 1024px) {
       flex-direction: column;
     }
-
+    
     &__aside {
       display: flex;
       flex-direction: column;
@@ -174,6 +196,18 @@
 
       @media(max-width: 1024px) {
           width: 100%;
+          order: 2;
+          
+          display: grid;
+          grid-template-columns: 1.5fr 1fr; 
+          grid-template-rows: auto auto;
+          gap: 20px;
+      }
+
+      @media (max-width: 480px) {
+          display: flex;
+          flex-direction: column;
+          gap: 40px;
       }
       
       &__quote {
@@ -184,6 +218,15 @@
         padding: var(--spacing-lg);
         border-radius: 20px;
         color: var(--color-light);
+
+        @media(max-width: 1024px) {
+          grid-column: 1;
+          grid-row: 1;
+        }
+
+        @media(max-width: 480px) {
+          order: 1; 
+        }
 
         &-title {
           display: flex;
@@ -203,9 +246,37 @@
           opacity: 0.6;
         }
       }
+      
+      & > picture {
+         @media(max-width: 1024px) {
+            grid-column: 2;
+            grid-row: 1;
+            height: 100%;
+         }
+
+         @media(max-width: 480px) {
+            order: 2;
+            width: 100%;
+            height: auto;
+         }
+      }
 
       &__image {
+        width: 100%;
         border-radius: 20px;
+        
+        @media(max-width: 1024px) {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        @media(max-width: 480px) {
+          width: 100%;
+          height: auto; 
+          aspect-ratio: 16 / 9;
+          object-fit: cover;
+        }
       }
 
       &__norm {
@@ -216,6 +287,15 @@
         padding: var(--spacing-lg);
         border-radius: 20px;
         color: var(--color-dark);
+        
+        @media(max-width: 1024px) {
+          grid-column: 1;
+          grid-row: 2;
+        }
+
+        @media(max-width: 480px) {
+          order: 3;
+        }
 
         &-context {
           &-title {
@@ -238,12 +318,14 @@
       }
     }
 
+   
     &__cards {
       &-container {
         width: 70%;
 
         @media(max-width: 1024px) {
           width: 100%;
+          order: 1; 
         }
       }
 
@@ -253,8 +335,22 @@
       gap: var(--spacing-lg);
       margin-bottom: var(--spacing-xl);
 
+      
+      @media (max-width: 768px) {
+         grid-template-columns: repeat(2, 1fr);
+      }
+
+      
+      @media (max-width: 480px) {
+         grid-template-columns: 1fr;
+      }
+
       &--exercises {
         grid-template-columns: repeat(2, 1fr);
+        
+        @media (max-width: 768px) {
+           grid-template-columns: 1fr; 
+        }
       }
    
       &-item {
@@ -469,8 +565,7 @@
       }
     }
   }
-
-  // Пагінація
+  
   &__pagination {
     display: flex;
     justify-content: center;
@@ -500,8 +595,6 @@
       }
 
       &--active {
-        // background-color: var(--color-dark);
-        // color: var(--color-light);
         opacity: 1;
         border: 1px solid var(--color-dark);
       }
