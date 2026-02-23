@@ -216,6 +216,9 @@
   scrollbar-width: thin;
   scrollbar-color: #242424 rgba(36, 36, 36, 0.1);
 
+  .visually-hidden {
+    display: none;
+  }
   .exercises__content__main__cards--exercises {
     display: flex;
     flex-direction: row;
